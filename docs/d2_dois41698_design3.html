@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Helps Doctors Understand Cancer DNA - Research Impact</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.3;
+            background: linear-gradient(135deg, #2D1B69 0%, #1E1B4B 30%, #4C1D95 70%, #6B46C1 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: white;
+            padding: 15px;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 127, 80, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(30, 58, 138, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            height: calc(100vh - 30px);
+        }
+        
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .header {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #FF7F50 0%, #1E3A8A 50%, #8B5CF6 100%);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 127, 80, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.8em;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000, 2px 2px 4px rgba(0,0,0,0.5);
+            -webkit-text-stroke: 1px #000000;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+        }
+        
+        .research-badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 700;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            display: inline-block;
+        }
+        
+        .card {
+            background: rgba(139, 92, 246, 0.6);
+            padding: 18px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+        
+        .card h2 {
+            background: linear-gradient(90deg, #FF7F50 0%, #1E3A8A 100%);
+            color: #FFFFFF;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: 800;
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000, 1px 1px 2px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            -webkit-text-stroke: 0.5px #000000;
+        }
+        
+        .card h3 {
+            color: #A3E635;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .card p, .card li {
+            font-size: 0.95em;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .main-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .dna-figure {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #FF7F50 0%, #1E3A8A 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .ai-models {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .ai-model {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            background: rgba(107, 70, 193, 0.6);
+            border-radius: 12px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        .model-circle {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #FF7F50 0%, #1E3A8A 100%);
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4em;
+            color: white;
+            font-weight: bold;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .model-name {
+            font-size: 1em;
+            font-weight: 700;
+            color: #A3E635;
+            margin-bottom: 6px;
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+        }
+        
+        .accuracy-score {
+            font-size: 1.6em;
+            font-weight: 900;
+            color: #FFFFFF;
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000, 1px 1px 2px rgba(0,0,0,0.7);
+            background: linear-gradient(90deg, #FF7F50 0%, #1E3A8A 100%);
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin: 4px 0;
+            -webkit-text-stroke: 0.5px #000000;
+        }
+        
+        .accuracy-bar {
+            background: rgba(255, 255, 255, 0.3);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 8px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .accuracy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF7F50 0%, #1E3A8A 100%);
+            border-radius: 4px;
+            transition: width 2s ease;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 18px;
+            background: rgba(107, 70, 193, 0.6);
+            border-radius: 12px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        .big-number {
+            font-size: 2.4em;
+            font-weight: 900;
+            color: #FFFFFF;
+            display: block;
+            margin-bottom: 6px;
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000, 2px 2px 4px rgba(0,0,0,0.7);
+            background: linear-gradient(90deg, #FF7F50 0%, #1E3A8A 100%);
+            padding: 6px 12px;
+            border-radius: 8px;
+            -webkit-text-stroke: 1px #000000;
+        }
+        
+        .stat-title {
+            font-size: 1em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #A3E635;
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+        }
+        
+        .stat-desc {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+        
+        .law-item {
+            background: rgba(107, 70, 193, 0.4);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid #A3E635;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .law-item h4 {
+            color: #FFFFFF;
+            font-size: 1em;
+            margin-bottom: 6px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #FF7F50 0%, #1E3A8A 100%);
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+        }
+        
+        .law-item p {
+            font-size: 0.9em;
+            line-height: 1.3;
+            font-weight: 500;
+        }
+        
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 15%;
+            right: 15%;
+            height: 3px;
+            background: linear-gradient(90deg, #FF7F50 0%, #1E3A8A 100%);
+            z-index: 0;
+            border-radius: 2px;
+        }
+        
+        .timeline-step {
+            background: linear-gradient(135deg, #FF7F50 0%, #1E3A8A 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            position: relative;
+            z-index: 1;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .step-label {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7em;
+            font-weight: 700;
+            width: 70px;
+            text-align: center;
+            color: #FFFFFF;
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+        }
+        
+        .challenges-solutions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .challenge-box, .solution-box {
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .challenge-box {
+            background: rgba(255, 107, 107, 0.3);
+            border: 2px solid #ff6b6b;
+        }
+        
+        .solution-box {
+            background: rgba(163, 230, 53, 0.3);
+            border: 2px solid #A3E635;
+        }
+        
+        .challenge-box h4, .solution-box h4 {
+            font-size: 1em;
+            margin-bottom: 8px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .challenge-box h4 {
+            color: #FFFFFF;
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .solution-box h4 {
+            color: #FFFFFF;
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .challenge-box ul, .solution-box ul {
+            list-style: none;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .challenge-box li:before {
+            content: "•";
+            color: #EF4444;
+            margin-right: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px #000000;
+        }
+        
+        .solution-box li:before {
+            content: "•";
+            color: #10B981;
+            margin-right: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px #000000;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #FF7F50 0%, #1E3A8A 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .cta-title {
+            font-size: 1.7em;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+            font-weight: 800;
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000, 1px 1px 2px rgba(0,0,0,0.5);
+            -webkit-text-stroke: 0.5px #000000;
+        }
+        
+        .cta-text {
+            font-size: 1em;
+            margin-bottom: 18px;
+            color: #FFFFFF;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .cta-button {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1E3A8A;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            background: #FFFFFF;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        .study-details {
+            padding: 18px;
+            background: rgba(107, 70, 193, 0.5);
+            border-radius: 12px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        .study-details h3 {
+            background: linear-gradient(90deg, #FF7F50 0%, #1E3A8A 100%);
+            color: #FFFFFF;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            font-weight: 800;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+        }
+        
+        .study-details p {
+            font-size: 0.85em;
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+        }
+        
+        .study-details strong {
+            color: #A3E635;
+            font-weight: 700;
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Decodes Cancer DNA</h1>
+            <div class="subtitle">Teaching computers to understand genetic tests like expert doctors</div>
+            <div class="research-badge">Nature Precision Oncology, May 2025</div>
+        </div>
+
+        <!-- Column 1 -->
+        <div class="column">
+            <div class="card">
+                <div class="main-visual">
+                    <div class="dna-figure">🧬</div>
+                </div>
+                <h2>The Challenge</h2>
+                <div class="challenges-solutions">
+                    <div class="challenge-box">
+                        <h4>❌ Problems</h4>
+                        <ul>
+                            <li>Complex DNA analysis</li>
+                            <li>Hours of expert time</li>
+                            <li>Specialist shortage</li>
+                            <li>Inconsistent results</li>
+                        </ul>
+                    </div>
+                    <div class="solution-box">
+                        <h4>✅ AI Solution</h4>
+                        <ul>
+                            <li>Automated analysis</li>
+                            <li>Faster decisions</li>
+                            <li>24/7 availability</li>
+                            <li>Consistent results</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Three AI Models Tested</h2>
+                <div class="ai-models">
+                    <div class="ai-model">
+                        <div class="model-circle">🏆</div>
+                        <div class="model-name">GPT-4o</div>
+                        <div class="accuracy-score">73.2%</div>
+                        <div class="accuracy-bar">
+                            <div class="accuracy-fill" style="width: 73.2%;"></div>
+                        </div>
+                    </div>
+                    <div class="ai-model">
+                        <div class="model-circle">🥈</div>
+                        <div class="model-name">Qwen 2.5</div>
+                        <div class="accuracy-score">57.3%</div>
+                        <div class="accuracy-bar">
+                            <div class="accuracy-fill" style="width: 57.3%;"></div>
+                        </div>
+                    </div>
+                    <div class="ai-model">
+                        <div class="model-circle">🥉</div>
+                        <div class="model-name">Llama 3.1</div>
+                        <div class="accuracy-score">49.8%</div>
+                        <div class="accuracy-bar">
+                            <div class="accuracy-fill" style="width: 49.8%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Key Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="big-number">10,506</span>
+                        <div class="stat-title">DNA Changes</div>
+                        <div class="stat-desc">Analyzed from 612 patients</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="big-number">97%</span>
+                        <div class="stat-title">Team Accuracy</div>
+                        <div class="stat-desc">When all 3 AI agreed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="column">
+            <div class="card">
+                <h2>What AI Does Well</h2>
+                <div class="law-item">
+                    <h4>High-confidence variants</h4>
+                    <p>Correctly identifies genetic changes with strong clinical evidence</p>
+                </div>
+                <div class="law-item">
+                    <h4>Conservative approach</h4>
+                    <p>Avoids false positive treatment recommendations</p>
+                </div>
+                <div class="law-item">
+                    <h4>Team consensus</h4>
+                    <p>Multiple AI models together achieve near-expert accuracy</p>
+                </div>
+                <div class="law-item">
+                    <h4>Learning enhancement</h4>
+                    <p>Adding medical databases significantly improves performance</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Current Limitations</h2>
+                <div class="law-item">
+                    <h4>Unclear cases</h4>
+                    <p>Struggles with genetic changes having weak clinical evidence</p>
+                </div>
+                <div class="law-item">
+                    <h4>Knowledge gaps</h4>
+                    <p>May miss recent FDA approvals due to training data cutoffs</p>
+                </div>
+                <div class="law-item">
+                    <h4>Context sensitivity</h4>
+                    <p>Sometimes misses specific details about genetic alterations</p>
+                </div>
+                <div class="law-item">
+                    <h4>Overclassification</h4>
+                    <p>Tends to assign higher importance levels than appropriate</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Patient Journey</h2>
+                <div class="timeline">
+                    <div class="timeline-step">
+                        🧬
+                        <div class="step-label">Genetic test</div>
+                    </div>
+                    <div class="timeline-step">
+                        🤖
+                        <div class="step-label">AI analysis</div>
+                    </div>
+                    <div class="timeline-step">
+                        👨‍⚕️
+                        <div class="step-label">Doctor review</div>
+                    </div>
+                    <div class="timeline-step">
+                        ⚡
+                        <div class="step-label">Fast treatment</div>
+                    </div>
+                </div>
+                <p style="font-size: 0.9em; text-align: center; margin-top: 12px; font-weight: 600;">AI helps doctors make faster, more consistent treatment decisions</p>
+            </div>
+        </div>
+
+        <!-- Column 3 -->
+        <div class="column">
+            <div class="card">
+                <h2>Future Impact</h2>
+                <h3>🚀 Benefits for Patients</h3>
+                <ul style="list-style: none; font-size: 0.95em;">
+                    <li style="margin-bottom: 8px;">• <strong>Faster Results:</strong> Quicker treatment recommendations</li>
+                    <li style="margin-bottom: 8px;">• <strong>More Consistent:</strong> Reduces interpretation differences</li>
+                    <li style="margin-bottom: 8px;">• <strong>Better Access:</strong> Helps hospitals without specialists</li>
+                    <li style="margin-bottom: 8px;">• <strong>Cost Savings:</strong> Reduces expert time on routine analysis</li>
+                </ul>
+                
+                <h3 style="margin-top: 18px;">📊 Research Validation</h3>
+                <p style="font-size: 0.9em; font-weight: 600;">GPT-4o matched human expert decisions more closely than other AI models, showing it thinks like experienced specialists.</p>
+            </div>
+
+            <div class="study-details">
+                <h3>📋 Study Details</h3>
+                <p><strong>Team:</strong> Taipei Veterans General Hospital & National Yang Ming Chiao Tung University</p>
+                <p><strong>Size:</strong> 10,506 genetic variants from 612 cancer patients</p>
+                <p><strong>Method:</strong> Compared AI predictions with expert classifications</p>
+                <p><strong>Funding:</strong> National Science and Technology Council, Taiwan</p>
+            </div>
+
+            <div class="cta-section">
+                <h2 class="cta-title">🎯 The Bottom Line</h2>
+                <p class="cta-text">This research shows AI can help doctors understand genetic test results better and faster. While not perfect yet, it's a promising step toward more personalized cancer treatment for everyone.</p>
+                <div class="cta-buttons">
+                    <a href="https://www.nature.com/articles/s41698-025-00935-4" class="cta-button" target="_blank">📖 Read Full Research</a>
+                    <a href="#" class="cta-button">💝 Support Research</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animate accuracy bars when page loads
+        setTimeout(() => {
+            document.querySelectorAll('.accuracy-fill').forEach(fill => {
+                const width = fill.style.width;
+                fill.style.width = '0%';
+                setTimeout(() => {
+                    fill.style.width = width;
+                }, 100);
+            });
+        }, 500);
+    </script>
+</body>
+</html>

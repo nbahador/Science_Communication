@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI in Drug Development: Revolutionizing Healthcare Regulation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: #1a0d2e;
+            color: white;
+            line-height: 1.3;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 20px;
+            min-height: 100vh;
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50px;
+            opacity: 0.3;
+        }
+        
+        .shape1 {
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+            top: 10%;
+            left: 5%;
+            transform: rotate(-15deg);
+            border-radius: 75px 25px;
+        }
+        
+        .shape2 {
+            width: 120px;
+            height: 160px;
+            background: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
+            top: 20%;
+            right: 10%;
+            transform: rotate(25deg);
+            border-radius: 60px 20px;
+        }
+        
+        .shape3 {
+            width: 80px;
+            height: 120px;
+            background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%);
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%) rotate(-10deg);
+            border-radius: 40px 15px;
+        }
+        
+        .column {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px 15px;
+            margin-bottom: 15px;
+        }
+        
+        .brain-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            font-weight: 300;
+            margin-bottom: 8px;
+        }
+        
+        .author {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        
+        .tagline {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            padding: 12px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+        }
+        
+        .section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-subtitle {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+        
+        .benefits-grid, .challenge-grid, .solutions-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        
+        .benefit-card, .challenge-item, .solution-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card::before, .solution-card::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899, #f59e0b);
+            margin-bottom: 8px;
+            border-radius: 1px;
+        }
+        
+        .benefit-card:hover, .challenge-item:hover, .solution-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .benefit-title, .challenge-title, .solution-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .benefit-description, .challenge-description, .solution-description {
+            color: #cbd5e1;
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+        
+        .challenges-section {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .challenge-item {
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .challenge-title {
+            color: #fca5a5;
+        }
+        
+        .move37-section {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .move37-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .move37-text {
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+        
+        .timeline {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .timeline-flag {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            flex: 1;
+        }
+        
+        .timeline-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #f1f5f9;
+        }
+        
+        .timeline-description {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            line-height: 1.3;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .cta-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .cta-description {
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 15px 0;
+            color: #64748b;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.7rem;
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Column 1 -->
+        <div class="column">
+            <header class="header">
+                <div class="brain-icon">🧠</div>
+                <h1>AI Medicine Revolution</h1>
+                <p class="subtitle">How AI transforms drug development and why smart regulation matters</p>
+                <p class="author">Singh, R., Paxton, M. & Auclair, J.</p>
+            </header>
+
+            <div class="tagline">
+                AI could revolutionize medicine by making treatments faster, cheaper, and more personalized
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">📊 The Challenge Today</h2>
+                <p class="section-subtitle">Traditional drug development is slow and expensive</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">15</span>
+                        <div class="stat-label">Years to develop new medicines</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">$2.6B</span>
+                        <div class="stat-label">Average cost per successful drug</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">20%+</span>
+                        <div class="stat-label">Annual growth in AI healthcare jobs</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">🚀 How AI Changes Everything</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-title">🎯 Lightning-Fast Discovery</div>
+                        <p class="benefit-description">AI predicts protein structures in minutes instead of months, accelerating drug discovery</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-title">💡 Smarter Drug Design</div>
+                        <p class="benefit-description">Test thousands of potential medicines virtually before expensive lab work</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-title">🧬 Personalized Medicine</div>
+                        <p class="benefit-description">Tailored treatments based on individual patient data, especially for cancer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="column">
+            <div class="section">
+                <h2 class="section-title">🎭 More AI Innovations</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-title">🎭 Digital Patient Twins</div>
+                        <p class="benefit-description">Virtual patients allow safe testing before human trials</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-title">⚡ Optimized Clinical Trials</div>
+                        <p class="benefit-description">Better patient selection brings treatments to market faster</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-title">🛡️ Enhanced Safety</div>
+                        <p class="benefit-description">Early prediction and detection of adverse reactions</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="challenges-section">
+                <h2 class="section-title" style="color: #fca5a5;">⚠️ Critical Challenges</h2>
+                <p class="section-subtitle">AI brings risks that need careful management</p>
+                <div class="challenge-grid">
+                    <div class="challenge-item">
+                        <div class="challenge-title">🤖 AI "Hallucinations"</div>
+                        <p class="benefit-description">AI can create convincing but false medical information</p>
+                    </div>
+                    <div class="challenge-item">
+                        <div class="challenge-title">⚖️ Hidden Bias</div>
+                        <p class="benefit-description">Treatments might not work equally for all populations</p>
+                    </div>
+                    <div class="challenge-item">
+                        <div class="challenge-title">📦 "Black Box" Problem</div>
+                        <p class="benefit-description">Hard to understand how AI reaches medical conclusions</p>
+                    </div>
+                    <div class="challenge-item">
+                        <div class="challenge-title">🔒 Privacy Risks</div>
+                        <p class="benefit-description">AI needs vast health data, raising privacy concerns</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="move37-section">
+                <h3 class="move37-title">🥋 The "Move 37" Challenge</h3>
+                <p class="move37-text">In 2016, AI beat the Go champion with an move no human would make. Regulators face the same challenge: <strong>How do you regulate something completely new?</strong></p>
+            </div>
+        </div>
+
+        <!-- Column 3 -->
+        <div class="column">
+            <div class="section">
+                <h2 class="section-title">🏛️ What Regulators Do Now</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-flag">🇺🇸</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">US FDA</div>
+                            <p class="timeline-description">AI Steering Committee coordinates 20+ initiatives. New 2025 guidelines for AI evaluation.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-flag">🇪🇺</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">European EMA</div>
+                            <p class="timeline-description">2023-2028 work plan for AI in medicine regulation and collaboration.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-flag">🌍</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Global Cooperation</div>
+                            <p class="timeline-description">FDA, Health Canada, UK creating consistent international AI standards.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">💡 Smart Solutions</h2>
+                <div class="solutions-grid">
+                    <div class="solution-card">
+                        <div class="benefit-title">👥 Human-AI Partnership</div>
+                        <p class="benefit-description">Keep humans in critical decision loops</p>
+                    </div>
+                    <div class="solution-card">
+                        <div class="benefit-title">📚 Regulator Training</div>
+                        <p class="benefit-description">Build AI expertise in government agencies</p>
+                    </div>
+                    <div class="solution-card">
+                        <div class="benefit-title">🌐 Global Standards</div>
+                        <p class="benefit-description">Consistent international AI treatment rules</p>
+                    </div>
+                    <div class="solution-card">
+                        <div class="benefit-title">🤝 Industry Collaboration</div>
+                        <p class="benefit-description">Share knowledge and best practices</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2 class="cta-title">🌟 Why This Matters</h2>
+                <p class="cta-description">AI could deliver breakthrough treatments faster and more affordably. Smart regulation ensures safety and accessibility for everyone.</p>
+                <a href="https://www.nature.com/articles/s43856-025-00910-x" class="cta-button" target="_blank">
+                    📖 Read Full Paper
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Source:</strong> Singh, R., Paxton, M. & Auclair, J. "Regulating the AI-enabled ecosystem for human therapeutics." <em>Communications Medicine</em> 5, 181 (2025)</p>
+        </div>
+    </div>
+</body>
+</html>

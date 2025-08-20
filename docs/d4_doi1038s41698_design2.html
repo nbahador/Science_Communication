@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI in Cancer Genetic Analysis - Research Impact</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+            position: relative;
+        }
+        
+        /* Background effects */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+        
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 165, 79, 0.2);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FFA54F, transparent);
+        }
+        
+        .main-title {
+            font-size: clamp(3.5rem, 7vw, 6rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FFA54F 0%, #ffffff 50%, #1E90FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            color: #cccccc;
+            font-weight: 300;
+            margin-bottom: 25px;
+        }
+        
+        .research-meta {
+            display: inline-block;
+            padding: 10px 25px;
+            border: 1px solid #1E90FF;
+            border-radius: 50px;
+            font-size: 1rem;
+            color: #1E90FF;
+            background: rgba(30, 144, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Main layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 380px 1fr 380px;
+            gap: 40px;
+            align-items: start;
+        }
+        
+        .section {
+            background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 28px;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 165, 79, 0.4), transparent);
+        }
+        
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #FFA54F;
+            position: relative;
+            padding-left: 18px;
+        }
+        
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, #FFA54F, #1E90FF);
+            border-radius: 2px;
+        }
+        
+        /* AI Models Visualization */
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .models-container {
+            position: relative;
+            width: 350px;
+            height: 350px;
+        }
+        
+        .model-orbit {
+            position: absolute;
+            border: 1px solid rgba(30, 144, 255, 0.2);
+            border-radius: 50%;
+            animation: rotate 30s linear infinite;
+        }
+        
+        .orbit-1 { width: 180px; height: 180px; top: 85px; left: 85px; }
+        .orbit-2 { width: 250px; height: 250px; top: 50px; left: 50px; animation-duration: 45s; animation-direction: reverse; }
+        .orbit-3 { width: 320px; height: 320px; top: 15px; left: 15px; animation-duration: 60s; }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .central-hub {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(145deg, rgba(30, 144, 255, 0.15), rgba(30, 144, 255, 0.08));
+            border: 2px solid rgba(30, 144, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            backdrop-filter: blur(20px);
+        }
+        
+        .model-node {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(145deg, rgba(255, 165, 79, 0.15), rgba(255, 165, 79, 0.08));
+            border: 2px solid rgba(255, 165, 79, 0.4);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(20px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 165, 79, 0.2);
+        }
+        
+        .model-node:hover {
+            transform: scale(1.1);
+            background: linear-gradient(145deg, rgba(255, 165, 79, 0.18), rgba(255, 165, 79, 0.12));
+            border-color: rgba(255, 165, 79, 0.5);
+        }
+        
+        .model-1 { top: 15px; left: 50%; transform: translateX(-50%); }
+        .model-2 { top: 50%; right: 15px; transform: translateY(-50%); }
+        .model-3 { bottom: 15px; left: 50%; transform: translateX(-50%); }
+        
+        .model-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 2px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .model-score {
+            font-size: 1rem;
+            color: #FFA54F;
+            font-weight: 600;
+            text-shadow: 0 0 15px rgba(255, 165, 79, 0.4);
+            letter-spacing: -0.01em;
+        }
+        
+        /* Data visualization */
+        .data-viz {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(145deg, rgba(30, 144, 255, 0.12), rgba(30, 144, 255, 0.06));
+            border: 2px solid rgba(30, 144, 255, 0.3);
+            border-radius: 16px;
+            padding: 24px 18px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(30, 144, 255, 0.15);
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(30, 144, 255, 0.08), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .metric-number {
+            font-size: 2.8rem;
+            font-weight: 400;
+            color: #FFA54F;
+            display: block;
+            margin-bottom: 8px;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 0 20px rgba(255, 165, 79, 0.3);
+            letter-spacing: -0.02em;
+        }
+        
+        .metric-label {
+            font-size: 0.95rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 500;
+        }
+        
+        /* Lists and content */
+        .content-list {
+            list-style: none;
+        }
+        
+        .content-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            margin-bottom: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .content-item:hover {
+            background: rgba(255, 165, 79, 0.05);
+            border-color: rgba(255, 165, 79, 0.15);
+            transform: translateX(4px);
+        }
+        
+        .item-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(145deg, rgba(255, 165, 79, 0.12), rgba(255, 165, 79, 0.06));
+            border: 1px solid rgba(255, 165, 79, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .item-content h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+        
+        .item-content p {
+            font-size: 0.95rem;
+            color: #bbbbbb;
+            line-height: 1.5;
+        }
+        
+        /* Timeline */
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin: 25px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 165, 79, 0.4), rgba(30, 144, 255, 0.4), transparent);
+        }
+        
+        .timeline-node {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(145deg, rgba(30, 144, 255, 0.12), rgba(30, 144, 255, 0.06));
+            border: 2px solid rgba(30, 144, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .timeline-label {
+            position: absolute;
+            top: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #aaaaaa;
+            text-align: center;
+            width: 90px;
+            line-height: 1.3;
+        }
+        
+        /* Call to action */
+        .cta {
+            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .cta-title {
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 18px;
+            color: #FFA54F;
+        }
+        
+        .cta-text {
+            font-size: 1.1rem;
+            color: #cccccc;
+            margin-bottom: 28px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+        }
+        
+        .cta-button {
+            padding: 14px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(145deg, rgba(30, 144, 255, 0.2), rgba(30, 144, 255, 0.12));
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            color: #ffffff;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 165, 79, 0.4);
+            color: #FFA54F;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(145deg, rgba(30, 144, 255, 0.25), rgba(30, 144, 255, 0.18));
+            border-color: rgba(30, 144, 255, 0.4);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 165, 79, 0.08);
+            border-color: rgba(255, 165, 79, 0.5);
+        }
+        
+        /* Study details */
+        .study-meta {
+            font-size: 0.95rem;
+            color: #aaaaaa;
+            line-height: 1.6;
+        }
+        
+        .study-meta strong {
+            color: #FFA54F;
+            font-weight: 500;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .models-container {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .orbit-1 { width: 150px; height: 150px; top: 75px; left: 75px; }
+            .orbit-2 { width: 210px; height: 210px; top: 45px; left: 45px; }
+            .orbit-3 { width: 270px; height: 270px; top: 15px; left: 15px; }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .data-viz {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .timeline {
+                flex-direction: column;
+                gap: 25px;
+            }
+            
+            .timeline::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="floating-particles" id="particles"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">Artificial Intelligence in Cancer Genomics</h1>
+            <p class="subtitle">Advancing precision medicine through machine learning-assisted genetic variant classification</p>
+            <div class="research-meta">Nature Precision Oncology • May 2025 • Peer Reviewed</div>
+        </header>
+        
+        <div class="main-layout">
+            <!-- Left Column -->
+            <div class="section">
+                <h2 class="section-title">Research Challenge</h2>
+                <ul class="content-list">
+                    <li class="content-item">
+                        <div class="item-icon">⚡</div>
+                        <div class="item-content">
+                            <h4>Complex Analysis</h4>
+                            <p>Modern genetic tests identify hundreds of DNA variations, but determining clinical relevance requires extensive expertise</p>
+                        </div>
+                    </li>
+                    <li class="content-item">
+                        <div class="item-icon">⏱</div>
+                        <div class="item-content">
+                            <h4>Time Intensive</h4>
+                            <p>Expert pathologists spend hours analyzing literature and databases for each genetic variant</p>
+                        </div>
+                    </li>
+                    <li class="content-item">
+                        <div class="item-icon">👥</div>
+                        <div class="item-content">
+                            <h4>Limited Scalability</h4>
+                            <p>Shortage of specialized genomic medicine experts globally limits access to precision cancer care</p>
+                        </div>
+                    </li>
+                    <li class="content-item">
+                        <div class="item-icon">📊</div>
+                        <div class="item-content">
+                            <h4>Consistency Issues</h4>
+                            <p>Inter-observer variability among experts affects reproducibility of genetic variant interpretation</p>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="data-viz">
+                    <div class="metric-card">
+                        <span class="metric-number">10,506</span>
+                        <div class="metric-label">Variants Analyzed</div>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">612</span>
+                        <div class="metric-label">Patient Cases</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Center Column -->
+            <div class="center-content">
+                <div class="models-container">
+                    <div class="model-orbit orbit-1"></div>
+                    <div class="model-orbit orbit-2"></div>
+                    <div class="model-orbit orbit-3"></div>
+                    
+                    <div class="central-hub">🧬</div>
+                    
+                    <div class="model-node model-1">
+                        <div class="model-name">GPT-4o</div>
+                        <div class="model-score">73.2%</div>
+                    </div>
+                    <div class="model-node model-2">
+                        <div class="model-name">Qwen 2.5</div>
+                        <div class="model-score">57.3%</div>
+                    </div>
+                    <div class="model-node model-3">
+                        <div class="model-name">Llama 3.1</div>
+                        <div class="model-score">49.8%</div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">Clinical Workflow Impact</h2>
+                    <div class="timeline">
+                        <div class="timeline-node">
+                            📝
+                            <div class="timeline-label">Genetic Testing</div>
+                        </div>
+                        <div class="timeline-node">
+                            🤖
+                            <div class="timeline-label">AI Analysis</div>
+                        </div>
+                        <div class="timeline-node">
+                            👨‍⚕️
+                            <div class="timeline-label">Expert Review</div>
+                        </div>
+                        <div class="timeline-node">
+                            💊
+                            <div class="timeline-label">Treatment Decision</div>
+                        </div>
+                    </div>
+                    <div class="study-meta">
+                        <strong>Study Design:</strong> Comparative analysis across three large language models using real-world clinical data from FoundationOne CDx reports and curated databases (OncoKB, CIViC)<br><br>
+                        <strong>Institution:</strong> Taipei Veterans General Hospital & National Yang Ming Chiao Tung University<br>
+                        <strong>Funding:</strong> National Science and Technology Council, Taiwan
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="section">
+                <h2 class="section-title">Key Findings</h2>
+                <ul class="content-list">
+                    <li class="content-item">
+                        <div class="item-icon">🎯</div>
+                        <div class="item-content">
+                            <h4>Performance Hierarchy</h4>
+                            <p>GPT-4o demonstrated superior accuracy (73.2%) compared to Qwen 2.5 (57.3%) and Llama 3.1 (49.8%)</p>
+                        </div>
+                    </li>
+                    <li class="content-item">
+                        <div class="item-icon">🤝</div>
+                        <div class="item-content">
+                            <h4>Consensus Accuracy</h4>
+                            <p>When all three models agreed, classification accuracy reached 97%, approaching expert-level performance</p>
+                        </div>
+                    </li>
+                    <li class="content-item">
+                        <div class="item-icon">📚</div>
+                        <div class="item-content">
+                            <h4>Knowledge Integration</h4>
+                            <p>Retrieval-augmented generation significantly improved performance by incorporating external medical databases</p>
+                        </div>
+                    </li>
+                    <li class="content-item">
+                        <div class="item-icon">⚖️</div>
+                        <div class="item-content">
+                            <h4>Conservative Approach</h4>
+                            <p>Models exhibited cautious classification behavior, minimizing false positive treatment recommendations</p>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="data-viz">
+                    <div class="metric-card">
+                        <span class="metric-number">97%</span>
+                        <div class="metric-label">Consensus Accuracy</div>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">3</span>
+                        <div class="metric-label">AI Models Tested</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta">
+            <h2 class="cta-title">Implications for Precision Medicine</h2>
+            <p class="cta-text">This research demonstrates the potential for AI-assisted genetic variant interpretation to accelerate clinical decision-making, improve consistency in genomic medicine, and expand access to precision cancer care globally.</p>
+            <div class="cta-buttons">
+                <a href="https://www.nature.com/articles/s41698-025-00935-4" class="cta-button btn-primary" target="_blank">Access Full Publication</a>
+                <a href="#" class="cta-button btn-secondary">Support Research Initiative</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 40;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                container.appendChild(particle);
+            }
+        }
+        
+        // Add hover effects to model nodes
+        document.querySelectorAll('.model-node').forEach(node => {
+            node.addEventListener('mouseenter', () => {
+                node.style.transform = node.style.transform + ' scale(1.1)';
+            });
+            
+            node.addEventListener('mouseleave', () => {
+                node.style.transform = node.style.transform.replace(' scale(1.1)', '');
+            });
+        });
+        
+        // Initialize
+        createParticles();
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Apply observer to sections
+        document.querySelectorAll('.section, .cta').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
